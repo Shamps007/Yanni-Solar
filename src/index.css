@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --color-solar-orange: #f97316;
+  --color-solar-dark: #0f172a;
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -9,7 +9,7 @@ export default function About() {
     },
     {
       icon: <TrendingDown className="text-orange-500" size={28} />,
-      value: '95%',
+      value: '90%',
       label: 'Economia na Conta',
     },
     {

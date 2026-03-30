@@ -41,10 +41,10 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section id="depoimentos" className="py-20 bg-[#111827]">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
             O que nossos <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">clientes</span> dizem
           </h2>
           <div className="flex items-center justify-center gap-2 mb-2">
@@ -53,29 +53,29 @@ export default function Testimonials() {
                 <Star key={i} className="fill-orange-400 text-orange-400" size={20} />
               ))}
             </div>
-            <span className="text-xl font-bold text-slate-900">4,8</span>
-            <span className="text-slate-500 text-sm">· 24 avaliações no Google</span>
+            <span className="text-xl font-bold text-white">4,8</span>
+            <span className="text-gray-400 text-sm">· 24 avaliações no Google</span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review, index) => (
-            <div key={index} className="p-6 rounded-xl bg-white border border-slate-200 hover:border-orange-500/30 transition-all duration-300 shadow-sm">
+            <div key={index} className="p-6 rounded-xl bg-[#1f2937] border border-gray-800 hover:border-orange-500/30 transition-all duration-300 shadow-sm">
               <div className="flex items-center gap-1 mb-3">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={i < review.rating ? "fill-orange-400 text-orange-400" : "text-slate-300"}
+                    className={i < review.rating ? "fill-orange-400 text-orange-400" : "text-gray-600"}
                     size={14}
                   />
                 ))}
               </div>
-              <p className="text-sm text-slate-600 mb-4 leading-relaxed h-24 overflow-y-auto">
+              <p className="text-sm text-gray-300 mb-4 leading-relaxed h-24 overflow-y-auto">
                 {review.text}
               </p>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-900">{review.name}</span>
-                <span className="text-xs text-slate-500">{review.time}</span>
+                <span className="text-sm font-semibold text-white">{review.name}</span>
+                <span className="text-xs text-gray-500">{review.time}</span>
               </div>
             </div>
           ))}

@@ -10,9 +10,9 @@ export default function Footer() {
           <p>NOVA BELEM – Paulo Lopes – SC</p>
           <p>CEP 88490-000</p>
         </div>
-        <a href="tel:+5548996170953" className="inline-flex items-center gap-2 hover:text-orange-500 transition-colors text-sm">
+        <a href="tel:+5548991089722" className="inline-flex items-center gap-2 hover:text-orange-500 transition-colors text-sm">
           <Phone size={14} />
-          (48) 99617-0953
+          (48) 99108-9722
         </a>
         <div className="border-t border-slate-800 pt-6 mt-6">
           <p className="text-xs text-slate-500">© 2026 Yanni Solar – Todos os direitos reservados.</p>

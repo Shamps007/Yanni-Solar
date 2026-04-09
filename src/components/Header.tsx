@@ -54,10 +54,15 @@ export default function Header({ currentPage, setCurrentPage }: HeaderProps) {
         <a 
           href="#home" 
           onClick={(e) => handleNavClick(e, { page: 'home', href: '#home' })}
-          className={`text-xl font-bold tracking-tight transition-colors duration-300 ${
+          className={`flex items-center gap-2 text-xl font-bold tracking-tight transition-colors duration-300 ${
             isScrolled ? 'text-white' : 'text-white'
           }`}
         >
+          <img 
+            src="https://yannienergia.com/wp-content/uploads/2025/09/Logo-Laranja-Simbolo-Yanni-Solar-100x100.png" 
+            alt="Yanni Solar Logo" 
+            className="w-8 h-8 object-contain"
+          />
           Yanni Solar
         </a>
 

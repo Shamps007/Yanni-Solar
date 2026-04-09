@@ -28,7 +28,7 @@ export default function Services() {
         </div>
 
         <a
-          href="https://wa.me/48996170953"
+          href="https://wa.me/48991089722"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-lg hover:scale-105 transition-transform duration-200 shadow-[0_0_15px_rgba(249,115,22,0.5)]"

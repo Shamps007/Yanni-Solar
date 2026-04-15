@@ -50,9 +50,9 @@ export default function Hero() {
         }
       }
     } catch (error) {
-      console.error('Erro:', error);
+      console.error('Erro na requisição fetch:', error);
       setStatus('error');
-      setErrorMessage('Erro de conexão. Verifique sua internet.');
+      setErrorMessage('Erro de conexão. Verifique sua internet ou os logs do console.');
     }
   };
 

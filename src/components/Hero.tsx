@@ -38,8 +38,9 @@ export default function Hero() {
         setStatus('success'); // Mostra o card verde de sucesso
         setFormData({ nome: '', email: '', telefone: '', cidade: '' }); // Limpa os campos
       } else {
+        const errorData = await response.json().catch(() => null);
         setStatus('error');
-        setErrorMessage('Ocorreu um erro ao processar o lead. Tente novamente.');
+        setErrorMessage(errorData?.details || errorData?.error || 'Ocorreu um erro ao processar o lead. Tente novamente.');
       }
     } catch (error) {
       console.error('Erro:', error);
@@ -158,8 +159,15 @@ export default function Hero() {
                   {/* reCAPTCHA Placeholder */}
                   <div className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 mt-2">
                     <div className="flex items-center gap-3">
-                      <div className="w-6 h-6 border-2 border-gray-300 rounded bg-white"></div>
-                      <span className="text-sm text-gray-600">Não sou um robô</span>
+                      <input 
+                        type="checkbox" 
+                        id="recaptcha-mock" 
+                        required
+                        className="w-6 h-6 border-2 border-gray-300 rounded bg-white cursor-pointer accent-green-600" 
+                      />
+                      <label htmlFor="recaptcha-mock" className="text-sm text-gray-600 cursor-pointer select-none">
+                        Não sou um robô
+                      </label>
                     </div>
                     <div className="flex flex-col items-center">
                       <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="w-6 opacity-80" />

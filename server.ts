@@ -42,8 +42,9 @@ async function startServer() {
         // Devolve sucesso para o seu formulário exibir a mensagem verde
         return res.status(200).json({ success: true, message: 'Lead salvo no CRM!' });
       } else {
-        console.error('Erro na resposta do I.Sales:', isalesResponse.statusText);
-        return res.status(500).json({ error: 'Erro ao salvar no banco de dados do CRM' });
+        const errorText = await isalesResponse.text();
+        console.error('Erro na resposta do I.Sales:', isalesResponse.status, errorText);
+        return res.status(500).json({ error: 'Erro ao salvar no banco de dados do CRM', details: errorText });
       }
     } catch (error) {
       console.error('Erro de conexão com o Webhook:', error);

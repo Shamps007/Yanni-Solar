@@ -38,9 +38,16 @@ export default function Hero() {
         setStatus('success'); // Mostra o card verde de sucesso
         setFormData({ nome: '', email: '', telefone: '', cidade: '' }); // Limpa os campos
       } else {
-        const errorData = await response.json().catch(() => null);
+        const errorText = await response.text();
+        console.error('Server response:', response.status, errorText);
         setStatus('error');
-        setErrorMessage(errorData?.details || errorData?.error || 'Ocorreu um erro ao processar o lead. Tente novamente.');
+        
+        try {
+          const errorData = JSON.parse(errorText);
+          setErrorMessage(errorData.details || errorData.error || `Erro ${response.status}: Falha no servidor`);
+        } catch (e) {
+          setErrorMessage(`Erro ${response.status}: ${errorText.substring(0, 100)}...`);
+        }
       }
     } catch (error) {
       console.error('Erro:', error);

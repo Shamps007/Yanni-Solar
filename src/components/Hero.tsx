@@ -1,24 +1,51 @@
-import { useState } from 'react';
-import { ArrowRight, Phone, User, Mail, Smartphone, MapPin, RefreshCw, CheckCircle2, Loader2 } from 'lucide-react';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { ArrowRight, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function Hero() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    cidade: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.slice(0, 11);
+    if (value.length > 2) value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+    if (value.length > 10) value = `${value.slice(0, 10)}-${value.slice(10)}`;
+    setFormData({ ...formData, telefone: value });
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate network request
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
-    }, 1500);
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      // 🚀 Envia os dados para a SUA ponte na Vercel/Netlify, e não direto pro I.Sales
+      const response = await fetch('/api/enviar-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData), // Envia os dados limpos
+      });
+
+      if (response.ok) {
+        setStatus('success'); // Mostra o card verde de sucesso
+        setFormData({ nome: '', email: '', telefone: '', cidade: '' }); // Limpa os campos
+      } else {
+        setStatus('error');
+        setErrorMessage('Ocorreu um erro ao processar o lead. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      setStatus('error');
+      setErrorMessage('Erro de conexão. Verifique sua internet.');
+    }
   };
 
   return (
@@ -49,7 +76,6 @@ export default function Hero() {
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-lg hover:scale-105 transition-transform duration-200 shadow-[0_0_20px_rgba(249,115,22,0.4)]"
               >
                 Solicitar Orçamento
-                <ArrowRight size={20} />
               </a>
               <a
                 href="https://wa.me/48991089722"
@@ -63,75 +89,100 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Luxury Form */}
-          <div id="formulario-topo" className="w-full max-w-md mx-auto lg:ml-auto relative rounded-[14px] p-[1px] bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 shadow-[0_0_40px_rgba(249,115,22,0.35)] group">
-            <div className="bg-[#1a1c23]/90 backdrop-blur-xl rounded-[13px] overflow-hidden flex flex-col">
-              {/* Header */}
-              <div className="bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 p-5 text-center shadow-md">
-                <h3 className="text-lg font-bold text-white tracking-wide font-['Montserrat',sans-serif]">Solicite seu orçamento personalizado</h3>
-              </div>
-              
-              {/* Form Body */}
-              <form className="p-6 space-y-5" onSubmit={handleSubmit}>
-                {/* Name */}
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <User className="text-gray-400" size={18} />
-                  </div>
-                  <input type="text" required placeholder="Nome Completo" className="w-full bg-white/5 border border-white/10 focus:border-orange-500 focus:bg-white/10 rounded-lg pl-11 pr-4 py-3.5 text-white placeholder-gray-400 outline-none transition-all duration-300" />
+          {/* Native iSales Form */}
+          <div id="formulario-topo" className="w-full flex justify-center lg:justify-end">
+            <div className="w-full max-w-[420px] bg-white rounded-lg shadow-2xl p-6 sm:p-8">
+              {status === 'success' ? (
+                <div className="flex flex-col items-center justify-center h-full py-12 text-center">
+                  <CheckCircle2 className="w-16 h-16 text-green-500 mb-4" />
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Sucesso!</h3>
+                  <p className="text-gray-600">Seus dados foram enviados. Entraremos em contato em breve.</p>
+                  <button 
+                    onClick={() => setStatus('idle')}
+                    className="mt-6 text-orange-600 font-semibold hover:text-orange-700"
+                  >
+                    Enviar nova solicitação
+                  </button>
                 </div>
-                
-                {/* Email */}
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="text-gray-400" size={18} />
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-1">
+                    <label htmlFor="nome" className="block text-sm font-medium text-gray-700">Nome Completo</label>
+                    <input 
+                      type="text" 
+                      id="nome" 
+                      required 
+                      value={formData.nome}
+                      onChange={(e) => setFormData({...formData, nome: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                    />
                   </div>
-                  <input type="email" required placeholder="E-mail" className="w-full bg-white/5 border border-white/10 focus:border-orange-500 focus:bg-white/10 rounded-lg pl-11 pr-4 py-3.5 text-white placeholder-gray-400 outline-none transition-all duration-300" />
-                </div>
-                
-                {/* Phone */}
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Smartphone className="text-gray-400" size={18} />
-                  </div>
-                  <input type="tel" required placeholder="Telefone/Celular" className="w-full bg-white/5 border border-white/10 focus:border-orange-500 focus:bg-white/10 rounded-lg pl-11 pr-4 py-3.5 text-white placeholder-gray-400 outline-none transition-all duration-300" />
-                </div>
-                
-                {/* City */}
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <MapPin className="text-gray-400" size={18} />
-                  </div>
-                  <input type="text" required placeholder="Cidade" className="w-full bg-white/5 border border-white/10 focus:border-orange-500 focus:bg-white/10 rounded-lg pl-11 pr-4 py-3.5 text-white placeholder-gray-400 outline-none transition-all duration-300" />
-                </div>
 
-                {/* Submit Button */}
-                <button 
-                  type="submit" 
-                  disabled={isSubmitting || isSuccess}
-                  className={`w-full mt-4 font-bold py-4 rounded-lg transition-all duration-300 uppercase tracking-wider text-sm flex items-center justify-center gap-2
-                    ${isSuccess 
-                      ? 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-[0_4px_15px_rgba(16,185,129,0.3)]' 
-                      : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-[0_4px_15px_rgba(249,115,22,0.3)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.5)]'
-                    }
-                    ${isSubmitting ? 'opacity-80 cursor-not-allowed' : ''}
-                  `}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="animate-spin" size={20} />
-                      Enviando...
-                    </>
-                  ) : isSuccess ? (
-                    <>
-                      <CheckCircle2 size={20} />
-                      Enviado com sucesso!
-                    </>
-                  ) : (
-                    'Enviar'
+                  <div className="space-y-1">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">E-mail</label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      required 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-700">Telefone/Celular</label>
+                    <input 
+                      type="tel" 
+                      id="telefone" 
+                      required 
+                      value={formData.telefone}
+                      onChange={handlePhoneChange}
+                      placeholder="(00) 00000-0000"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label htmlFor="cidade" className="block text-sm font-medium text-gray-700">Cidade</label>
+                    <input 
+                      type="text" 
+                      id="cidade" 
+                      required 
+                      value={formData.cidade}
+                      onChange={(e) => setFormData({...formData, cidade: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                    />
+                  </div>
+
+                  {/* reCAPTCHA Placeholder */}
+                  <div className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 mt-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6 border-2 border-gray-300 rounded bg-white"></div>
+                      <span className="text-sm text-gray-600">Não sou um robô</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="w-6 opacity-80" />
+                      <span className="text-[10px] text-gray-500 mt-1">reCAPTCHA</span>
+                    </div>
+                  </div>
+
+                  {status === 'error' && (
+                    <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-md">
+                      <AlertCircle size={16} />
+                      <span>{errorMessage || 'Ocorreu um erro ao enviar. Tente novamente.'}</span>
+                    </div>
                   )}
-                </button>
-              </form>
+
+                  <button 
+                    type="submit" 
+                    disabled={status === 'loading'}
+                    className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                  >
+                    {status === 'loading' ? 'Enviando...' : 'Enviar'}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   formData.append('fid', 'UFD159TR951'); 
   
   formData.append('redirect', '1');
-  formData.append('teste', 'Sim');
+  //formData.append('teste', 'Sim');
 
   // Mapeia os dados do lead
   formData.append('nome', nome || '');

@@ -99,15 +99,15 @@ export default function Hero() {
 
           {/* Native iSales Form */}
           <div id="formulario-topo" className="w-full flex justify-center lg:justify-end">
-            <div className="w-full max-w-[420px] bg-white rounded-lg shadow-2xl p-6 sm:p-8">
+            <div className="w-full max-w-[420px] bg-slate-900/70 backdrop-blur-md border border-slate-700 rounded-lg shadow-2xl p-6 sm:p-8">
               {status === 'success' ? (
                 <div className="flex flex-col items-center justify-center h-full py-12 text-center">
                   <CheckCircle2 className="w-16 h-16 text-green-500 mb-4" />
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Sucesso!</h3>
-                  <p className="text-gray-600">Seus dados foram enviados. Entraremos em contato em breve.</p>
+                  <h3 className="text-2xl font-bold text-white mb-2">Sucesso!</h3>
+                  <p className="text-slate-300">Seus dados foram enviados. Entraremos em contato em breve.</p>
                   <button 
                     onClick={() => setStatus('idle')}
-                    className="mt-6 text-orange-600 font-semibold hover:text-orange-700"
+                    className="mt-6 text-orange-400 font-semibold hover:text-orange-300 transition-colors"
                   >
                     Enviar nova solicitação
                   </button>
@@ -115,31 +115,31 @@ export default function Hero() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-1">
-                    <label htmlFor="nome" className="block text-sm font-medium text-gray-700">Nome Completo</label>
+                    <label htmlFor="nome" className="block text-sm font-medium text-slate-200">Nome Completo</label>
                     <input 
                       type="text" 
                       id="nome" 
                       required 
                       value={formData.nome}
                       onChange={(e) => setFormData({...formData, nome: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                      className="w-full px-4 py-2 bg-slate-800/80 border border-slate-700 rounded-md text-white placeholder-slate-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">E-mail</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-200">E-mail</label>
                     <input 
                       type="email" 
                       id="email" 
                       required 
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                      className="w-full px-4 py-2 bg-slate-800/80 border border-slate-700 rounded-md text-white placeholder-slate-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="telefone" className="block text-sm font-medium text-gray-700">Telefone/Celular</label>
+                    <label htmlFor="telefone" className="block text-sm font-medium text-slate-200">Telefone/Celular</label>
                     <input 
                       type="tel" 
                       id="telefone" 
@@ -147,38 +147,38 @@ export default function Hero() {
                       value={formData.telefone}
                       onChange={handlePhoneChange}
                       placeholder="(00) 00000-0000"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                      className="w-full px-4 py-2 bg-slate-800/80 border border-slate-700 rounded-md text-white placeholder-slate-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label htmlFor="cidade" className="block text-sm font-medium text-gray-700">Cidade</label>
+                    <label htmlFor="cidade" className="block text-sm font-medium text-slate-200">Cidade</label>
                     <input 
                       type="text" 
                       id="cidade" 
                       required 
                       value={formData.cidade}
                       onChange={(e) => setFormData({...formData, cidade: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
+                      className="w-full px-4 py-2 bg-slate-800/80 border border-slate-700 rounded-md text-white placeholder-slate-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-colors"
                     />
                   </div>
 
                   {/* reCAPTCHA Placeholder */}
-                  <div className="flex items-center justify-between p-3 border border-gray-200 rounded-md bg-gray-50 mt-2">
+                  <div className="flex items-center justify-between p-3 border border-slate-700 rounded-md bg-slate-800/50 mt-2">
                     <div className="flex items-center gap-3">
                       <input 
                         type="checkbox" 
                         id="recaptcha-mock" 
                         required
-                        className="w-6 h-6 border-2 border-gray-300 rounded bg-white cursor-pointer accent-green-600" 
+                        className="w-6 h-6 border-2 border-slate-600 rounded bg-slate-700 cursor-pointer accent-green-500" 
                       />
-                      <label htmlFor="recaptcha-mock" className="text-sm text-gray-600 cursor-pointer select-none">
+                      <label htmlFor="recaptcha-mock" className="text-sm text-slate-300 cursor-pointer select-none">
                         Não sou um robô
                       </label>
                     </div>
                     <div className="flex flex-col items-center">
                       <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="w-6 opacity-80" />
-                      <span className="text-[10px] text-gray-500 mt-1">reCAPTCHA</span>
+                      <span className="text-[10px] text-slate-400 mt-1">reCAPTCHA</span>
                     </div>
                   </div>
 

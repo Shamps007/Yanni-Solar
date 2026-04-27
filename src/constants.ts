@@ -4,7 +4,7 @@ export const products = [
     title: 'Placa Solar 585W – Ronma',
     description: 'Módulo fotovoltaico de alta eficiência e durabilidade.',
     price: 'R$ 850,00',
-    image: '/placa-585w.jpeg',
+    image: '/placa-585w.jpg',
     details: 'Placa Solar 585W da marca Ronma. Alta eficiência de conversão, excelente performance em condições de baixa luminosidade e resistência a intempéries. Ideal para projetos residenciais e comerciais.',
   },
   {

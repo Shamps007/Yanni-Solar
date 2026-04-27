@@ -43,12 +43,12 @@ export default function Products() {
                   onClick={() => setSelectedProduct(product)}
                   className="group flex flex-col rounded-2xl bg-[#1f2937] border border-gray-800 hover:border-orange-500/50 transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(249,115,22,0.15)] cursor-pointer"
                 >
-                  <div className="aspect-[4/3] overflow-hidden relative">
+                  <div className="aspect-[4/3] overflow-hidden relative bg-white/5">
                     <img
                       src={product.image}
                       alt={product.title}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1f2937] to-transparent opacity-60"></div>
                   </div>
@@ -84,12 +84,12 @@ export default function Products() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Image Section */}
-            <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+            <div className="w-full md:w-1/2 h-64 md:h-auto relative bg-white/5 flex items-center justify-center p-8">
               <img 
                 src={selectedProduct.image} 
                 alt={selectedProduct.title} 
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain max-h-[80vh]"
               />
               <button 
                 onClick={() => setSelectedProduct(null)}
